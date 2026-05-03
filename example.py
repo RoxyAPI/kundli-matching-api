@@ -10,21 +10,28 @@ from roxy_sdk import create_roxy
 
 roxy = create_roxy(os.environ["ROXY_API_KEY"])
 
-# Calculate kundli matching score between two people (nakshatra-based Ashtakoota guna milan)
+# Step 1: geocode each birth city - never hardcode coordinates
+loc1 = roxy.location.search_cities(q="New Delhi")
+p1 = loc1["cities"][0]  # { latitude, longitude, timezone, ... }
+
+loc2 = roxy.location.search_cities(q="Mumbai")
+p2 = loc2["cities"][0]
+
+# Step 2: 36-point Guna Milan compatibility
 result = roxy.vedic_astrology.calculate_gun_milan(
     person1={
         "date": "1990-07-04",
         "time": "10:12:00",
-        "latitude": 28.6139,
-        "longitude": 77.209,
-        "timezone": 5.5,
+        "latitude": p1["latitude"],
+        "longitude": p1["longitude"],
+        "timezone": p1["timezone"],
     },
     person2={
         "date": "1992-03-15",
         "time": "08:30:00",
-        "latitude": 19.076,
-        "longitude": 72.8777,
-        "timezone": 5.5,
+        "latitude": p2["latitude"],
+        "longitude": p2["longitude"],
+        "timezone": p2["timezone"],
     },
 )
 

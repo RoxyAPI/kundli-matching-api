@@ -1,4 +1,4 @@
-![Kundli Matching API](banner.png)
+[![Kundli Matching API](banner.png)](https://roxyapi.com/products/vedic-astrology-api)
 
 # Kundli Matching API
 
@@ -35,12 +35,21 @@ Kundli matching API powered by Roxy Ephemeris, verified against NASA JPL Horizon
 ### cURL
 
 ```bash
+# Step 1: geocode person 1 birth city
+curl "https://roxyapi.com/api/v2/location/search?q=New+Delhi" \
+  -H "X-API-Key: $ROXY_API_KEY"
+
+# Step 1b: geocode person 2 birth city
+curl "https://roxyapi.com/api/v2/location/search?q=Mumbai" \
+  -H "X-API-Key: $ROXY_API_KEY"
+
+# Step 2: 36-point Guna Milan compatibility (use coordinates from step 1 responses)
 curl -X POST https://roxyapi.com/api/v2/vedic-astrology/compatibility \
   -H "X-API-Key: $ROXY_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-    "person1": {"date":"1990-07-04","time":"10:12:00","latitude":28.6139,"longitude":77.2090,"timezone":5.5},
-    "person2": {"date":"1992-03-15","time":"08:30:00","latitude":19.0760,"longitude":72.8777,"timezone":5.5}
+    "person1": {"date":"1990-07-04","time":"10:12:00","latitude":28.6448,"longitude":77.2167,"timezone":"Asia/Kolkata"},
+    "person2": {"date":"1992-03-15","time":"08:30:00","latitude":19.0728,"longitude":72.8826,"timezone":"Asia/Kolkata"}
   }'
 ```
 
@@ -52,9 +61,17 @@ from roxy_sdk import create_roxy
 
 roxy = create_roxy(os.environ["ROXY_API_KEY"])
 
+# Step 1: geocode each birth city - never hardcode coordinates
+loc1 = roxy.location.search_cities(q="New Delhi")
+p1 = loc1["cities"][0]
+
+loc2 = roxy.location.search_cities(q="Mumbai")
+p2 = loc2["cities"][0]
+
+# Step 2: 36-point Guna Milan compatibility
 result = roxy.vedic_astrology.calculate_gun_milan(
-    person1={"date": "1990-07-04", "time": "10:12:00", "latitude": 28.6139, "longitude": 77.209, "timezone": 5.5},
-    person2={"date": "1992-03-15", "time": "08:30:00", "latitude": 19.076, "longitude": 72.8777, "timezone": 5.5},
+    person1={"date": "1990-07-04", "time": "10:12:00", "latitude": p1["latitude"], "longitude": p1["longitude"], "timezone": p1["timezone"]},
+    person2={"date": "1992-03-15", "time": "08:30:00", "latitude": p2["latitude"], "longitude": p2["longitude"], "timezone": p2["timezone"]},
 )
 print(f"Total: {result['total']}/36 ({result['percentage']:.1f}%) - {result['recommendation']}")
 for koota in result["breakdown"]:
@@ -68,10 +85,18 @@ import { createRoxy } from '@roxyapi/sdk';
 
 const roxy = createRoxy(process.env.ROXY_API_KEY);
 
+// Step 1: geocode each birth city - never hardcode coordinates
+const { data: loc1 } = await roxy.location.searchCities({ query: { q: 'New Delhi' } });
+const p1 = loc1.cities[0];
+
+const { data: loc2 } = await roxy.location.searchCities({ query: { q: 'Mumbai' } });
+const p2 = loc2.cities[0];
+
+// Step 2: 36-point Guna Milan compatibility
 const { data, error } = await roxy.vedicAstrology.calculateGunMilan({
   body: {
-    person1: { date: '1990-07-04', time: '10:12:00', latitude: 28.6139, longitude: 77.209, timezone: 5.5 },
-    person2: { date: '1992-03-15', time: '08:30:00', latitude: 19.076, longitude: 72.8777, timezone: 5.5 },
+    person1: { date: '1990-07-04', time: '10:12:00', latitude: p1.latitude, longitude: p1.longitude, timezone: p1.timezone },
+    person2: { date: '1992-03-15', time: '08:30:00', latitude: p2.latitude, longitude: p2.longitude, timezone: p2.timezone },
   },
 });
 if (error) throw new Error(error.error);
@@ -86,10 +111,18 @@ import { createRoxy } from '@roxyapi/sdk';
 
 const roxy = createRoxy(process.env.ROXY_API_KEY!);
 
+// Step 1: geocode each birth city - never hardcode coordinates
+const { data: loc1 } = await roxy.location.searchCities({ query: { q: 'New Delhi' } });
+const p1 = loc1.cities[0];
+
+const { data: loc2 } = await roxy.location.searchCities({ query: { q: 'Mumbai' } });
+const p2 = loc2.cities[0];
+
+// Step 2: 36-point Guna Milan compatibility
 const { data, error } = await roxy.vedicAstrology.calculateGunMilan({
   body: {
-    person1: { date: '1990-07-04', time: '10:12:00', latitude: 28.6139, longitude: 77.209, timezone: 5.5 },
-    person2: { date: '1992-03-15', time: '08:30:00', latitude: 19.076, longitude: 72.8777, timezone: 5.5 },
+    person1: { date: '1990-07-04', time: '10:12:00', latitude: p1.latitude, longitude: p1.longitude, timezone: p1.timezone },
+    person2: { date: '1992-03-15', time: '08:30:00', latitude: p2.latitude, longitude: p2.longitude, timezone: p2.timezone },
   },
 });
 if (error) throw new Error(error.error);
