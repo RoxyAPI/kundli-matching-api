@@ -1,0 +1,15 @@
+{
+  "name": "kundli-matching-api",
+  "version": "0.1.0",
+  "private": false,
+  "type": "module",
+  "description": "Kundli matching API. 36 point Ashtakoota Guna Milan with 8 sub scores plus dosha cancellation.",
+  "license": "MIT",
+  "dependencies": {
+    "@roxyapi/sdk": "^1.2.21"
+  },
+  "scripts": {
+    "ts": "bun example.ts",
+    "js": "node example.js"
+  }
+}
