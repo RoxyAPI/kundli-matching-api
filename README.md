@@ -12,13 +12,13 @@
 
 ## What is Kundli Matching API
 
-Kundli matching API powered by Roxy Ephemeris, verified against NASA JPL Horizons. Returns the full 36-point Guna Milan (Ashtakoota) score with per-koota breakdowns across all 8 categories: Varna, Vashya, Tara, Yoni, Graha Maitri, Gana, Bhakoot, and Nadi. Includes Nadi and Bhakoot dosha detection with classical cancellation analysis per Muhurta Martanda and BPHS rules. Built for kundli matching for marriage, matrimonial platforms, horoscope compatibility, and Vedic matchmaking services. One RoxyAPI subscription unlocks 200+ endpoints across 14+ spiritual domains.
+Kundli matching API powered by Roxy Ephemeris, verified against NASA JPL Horizons. Returns the full 36-point Guna Milan (Ashtakoota) score with per-koota breakdowns across all 8 categories: Varna, Vashya, Tara, Yoni, Graha Maitri, Gana, Bhakoot, and Nadi. Includes Nadi and Bhakoot dosha detection with classical cancellation analysis per Muhurta Martanda and BPHS rules. Built for kundli matching for marriage, matrimonial platforms, horoscope compatibility, and Vedic matchmaking services. One RoxyAPI subscription unlocks 258+ endpoints across 18+ spiritual domains.
 
 ## Why this API
 
 | Property | Value |
 |----------|-------|
-| Coverage | 14+ spiritual domains in one subscription |
+| Coverage | 18+ spiritual domains in one subscription |
 | Calculation | Roxy Ephemeris, verified against NASA JPL Horizons |
 | MCP server | `https://roxyapi.com/mcp/vedic-astrology` (Streamable HTTP, no local setup) |
 | SDKs | TypeScript on npm `@roxyapi/sdk`, Python on PyPI `roxy-sdk`, PHP on Packagist `roxyapi/sdk`, C# on NuGet `RoxyApi.Sdk`, Go `github.com/RoxyAPI/sdk-go`, WordPress plugin `roxyapi` |
